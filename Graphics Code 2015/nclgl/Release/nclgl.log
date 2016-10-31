@@ -1,0 +1,27 @@
+﻿Build started 31/10/2016 12:41:29.
+     1>Project "D:\Docs\Graphics Code 2015\nclgl\nclgl.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D GLEW_STATIC /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\nclgl.pdb" /Gd /TP /analyze- /errorReport:prompt Shader.cpp
+         Shader.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\Lib.exe /OUT:"D:\Docs\Graphics Code 2015\Graphics For Games\Release\nclgl.lib" /NOLOGO /LTCG Release\Camera.obj
+         Release\GameTimer.obj
+         Release\Keyboard.obj
+         Release\Matrix4.obj
+         Release\MD5Anim.obj
+         Release\MD5FileData.obj
+         Release\MD5Mesh.obj
+         Release\MD5Node.obj
+         Release\Mesh.obj
+         Release\Mouse.obj
+         Release\OBJMesh.obj
+         Release\OGLRenderer.obj
+         Release\Quaternion.obj
+         Release\Shader.obj
+         Release\Window.obj
+         nclgl.vcxproj -> D:\Docs\Graphics Code 2015\Graphics For Games\Release\nclgl.lib
+     1>Done Building Project "D:\Docs\Graphics Code 2015\nclgl\nclgl.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.84

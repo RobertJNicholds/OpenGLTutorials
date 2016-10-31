@@ -1,0 +1,18 @@
+﻿Build started 31/10/2016 12:41:30.
+     1>Project "D:\Docs\Graphics Code 2015\Graphics For Games\1) Your First Triangle\Tutorial1.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Docs\Graphics Code 2015\Graphics For Games\Release\Tutorial 01 - Your First Triangle.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"D:\Docs\Graphics Code 2015\Graphics For Games\Release\Tutorial 01 - Your First Triangle.pdb" /OPT:REF /OPT:ICF /LTCG:incremental /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Docs\Graphics Code 2015\Graphics For Games\Release\Tutorial 01 - Your First Triangle.lib" /MACHINE:X86 /SAFESEH /ignore:4099 Release\Renderer.obj
+         Release\tutorial1.obj
+     1>MSVCRT.lib(initializers.obj) : warning LNK4098: defaultlib 'libcmt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+         Generating code
+         0 of 309 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+           0 functions were new in current compilation
+           0 functions had inline decision re-evaluated but remain unchanged
+         Finished generating code
+     1>Renderer.obj : warning LNK4049: locally defined symbol ___glewUseProgram imported
+         Tutorial1.vcxproj -> D:\Docs\Graphics Code 2015\Graphics For Games\Release\Tutorial 01 - Your First Triangle.exe
+     1>Done Building Project "D:\Docs\Graphics Code 2015\Graphics For Games\1) Your First Triangle\Tutorial1.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.42
