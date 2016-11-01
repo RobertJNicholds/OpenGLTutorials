@@ -1,1 +1,11 @@
-﻿
+﻿Build started 01/11/2016 16:40:45.
+     1>Project "D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\Graphics For Games\4) Depth & Transparency\Tutorial4.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\Graphics For Games\Debug\Tutorial 04 - Depth and Transparency.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\Graphics For Games\Debug\Tutorial 04 - Depth and Transparency.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\Graphics For Games\Debug\Tutorial 04 - Depth and Transparency.lib" /MACHINE:X86 Debug\Renderer.obj
+         Debug\tutorial4.obj
+         Tutorial4.vcxproj -> D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\Graphics For Games\Debug\Tutorial 04 - Depth and Transparency.exe
+     1>Done Building Project "D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\Graphics For Games\4) Depth & Transparency\Tutorial4.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.40
