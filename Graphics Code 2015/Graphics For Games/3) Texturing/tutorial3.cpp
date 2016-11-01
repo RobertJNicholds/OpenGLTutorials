@@ -14,26 +14,33 @@ int main() {
 		return -1;
 	}
 
+	float fov = 45.0f;
+	float scale = 100.0f;
+	float rotation = 0.0f;
+	Vector3 position(0, 0, -1500.0f);
+
 	float rotate = 0.0f;
 	while(w.UpdateWindow() && !Window::GetKeyboard()->KeyDown(KEYBOARD_ESCAPE)){
 		if(Window::GetKeyboard()->KeyDown(KEYBOARD_LEFT) ) {
 			--rotate;
 			renderer.UpdateTextureMatrix(rotate);
 		}
-
 		if(Window::GetKeyboard()->KeyDown(KEYBOARD_RIGHT) ) {
 			++rotate;
 			renderer.UpdateTextureMatrix(rotate);
 		}
-
 		if(Window::GetKeyboard()->KeyTriggered(KEYBOARD_1) ) {
 			renderer.ToggleFiltering();
 		}
-
 		if(Window::GetKeyboard()->KeyTriggered(KEYBOARD_2) ) {
 			renderer.ToggleRepeating();
 		}
-
+		if (Window::GetKeyboard()->KeyDown(KEYBOARD_PLUS))
+			++scale;
+		if (Window::GetKeyboard()->KeyDown(KEYBOARD_MINUS))
+			--scale;
+		
+		renderer.UpdateScene(w.GetTimer()->GetTimedMS());
 		renderer.RenderScene();
 	}
 

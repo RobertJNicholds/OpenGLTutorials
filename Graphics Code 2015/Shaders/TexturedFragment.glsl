@@ -1,12 +1,13 @@
 #version 150
 uniform sampler2D diffuseTex;
 
-in Vertex {
+in Vertex {		
 	vec2 texCoord;
+	vec4 colour;
 } IN;
 
-out vec4 gl_FragColor;
+out vec4 fragColor;
 
 void main(void){
-	gl_FragColor = texture(diffuseTex, IN.texCoord);
+	fragColor =  texture(diffuseTex, IN.texCoord) + IN.colour;
 }
