@@ -50,6 +50,31 @@ Mesh* Mesh::GenerateTriangle()
 	return mesh;
 }
 
+Mesh* Mesh::GenerateQuad()
+{
+	Mesh* mesh = new Mesh();
+	mesh->numVertices = 4;
+	mesh->type = GL_TRIANGLE_STRIP;
+
+	mesh->vertices[0] = Vector3(-1.0f, -1.0f, 0.0f);
+	mesh->vertices[1] = Vector3(-1.0f, 1.0f, 0.0f);
+	mesh->vertices[2] = Vector3(1.0f, -1.0f, 0.0f);
+	mesh->vertices[3] = Vector3(1.0f, 1.0f, 0.0f);
+
+	mesh->textureCoords[0] = Vector2(0.0f, 1.0f);
+	mesh->textureCoords[1] = Vector2(0.0f, 0.0f);
+	mesh->textureCoords[2] = Vector2(1.0f, 1.0f);
+	mesh->textureCoords[3] = Vector2(1.0f, 0.0f);
+
+	for (int i = 0; i < 4; ++i)
+	{
+		mesh->colours[i] = Vector4(1.0f);
+	}
+
+	mesh->BufferData();
+	return mesh;
+}
+
 void Mesh::BufferData()
 {
 	glBindVertexArray(arrayObject);

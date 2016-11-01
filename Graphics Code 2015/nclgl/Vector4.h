@@ -26,6 +26,14 @@ public:
 		this->w = w;
 	}
 
+	Vector4(float x)
+	{
+		this->x = x;
+		this->y = x;
+		this->z = x;
+		this->w = x;
+	}
+
 	Vector3 ToVector3() {
 		return Vector3(x, y, z);
 	}
