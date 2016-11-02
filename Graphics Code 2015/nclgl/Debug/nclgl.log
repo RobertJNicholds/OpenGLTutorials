@@ -1,18 +1,8 @@
-﻿Build started 02/11/2016 15:16:02.
+﻿Build started 02/11/2016 16:00:35.
      1>Project "D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\nclgl\nclgl.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D GLEW_STATIC /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\nclgl.pdb" /Gd /TP /analyze- /errorReport:prompt Camera.cpp Frustum.cpp Mesh.cpp OBJMesh.cpp OGLRenderer.cpp SceneNode.cpp Shader.cpp Window.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D GLEW_STATIC /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\nclgl.pdb" /Gd /TP /analyze- /errorReport:prompt Mesh.cpp
          Mesh.cpp
-         Generating Code...
-         Compiling...
-         Window.cpp
-         Shader.cpp
-         SceneNode.cpp
-         OGLRenderer.cpp
-         OBJMesh.cpp
-         Frustum.cpp
-         Camera.cpp
-         Generating Code...
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\Lib.exe /OUT:"D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\Graphics For Games\Debug\nclgl.lib" /NOLOGO Debug\Camera.obj
          Debug\Frustum.obj
@@ -37,4 +27,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:04.94
+Time Elapsed 00:00:00.70

@@ -45,6 +45,7 @@
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Frustum.h" />
+    <ClInclude Include="Light.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Shaders">

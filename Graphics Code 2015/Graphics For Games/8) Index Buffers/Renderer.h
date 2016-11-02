@@ -16,4 +16,5 @@ public:
 protected:
 	HeightMap * heightMap;
 	Camera* camera;
+	Light* light;
 };

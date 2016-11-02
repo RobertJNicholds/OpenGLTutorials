@@ -12,7 +12,7 @@ Mesh::Mesh(void)
 	numVertices = 0;
 	texture = 0;
 	vertices = NULL;
-	normals = NULL:
+	normals = NULL;
 	indices = NULL;
 	numIndices = 0;
 	colours = NULL;
