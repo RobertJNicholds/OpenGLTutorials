@@ -23,7 +23,7 @@ public:
 		yaw		= 0.0f;
 		pitch	= 0.0f;
 		roll	= 0.0f;
-		speed = 0.001f;
+		speed = 0.05f;
 	};
 
 	Camera(float pitch, float yaw, Vector3 position){

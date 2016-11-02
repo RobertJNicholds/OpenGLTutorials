@@ -96,6 +96,7 @@ bool Shader::LoadShaderFile(std::string from, std::string &into)
 void Shader::SetDefaultAttributes()
 {
 	glBindAttribLocation(program, VERTEX_BUFFER, "position");
+	glBindAttribLocation(program, NORMAL_BUFFER, "normal");
 	glBindAttribLocation(program, COLOUR_BUFFER, "colour");
 	glBindAttribLocation(program, TEXTURE_BUFFER, "texCoord");
 }

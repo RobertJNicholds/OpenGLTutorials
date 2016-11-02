@@ -1,5 +1,4 @@
 #include "OBJMesh.h"
-#ifdef WEEK_2_CODE
 /*
 OBJ files look generally something like this:
 
@@ -42,8 +41,8 @@ bool	OBJMesh::LoadOBJMesh(std::string filename)	{
 	OBJSubMesh* currentMesh = new OBJSubMesh();
 	inputSubMeshes.push_back(currentMesh);	//It's safe to assume our OBJ will have a mesh in it ;)
 
-	string currentMtlLib;
-	string currentMtlType;
+	std::string currentMtlLib;
+	std::string currentMtlType;
 
 	while(!f.eof()) {
 		std::string currentLine;
@@ -258,12 +257,12 @@ void OBJMesh::Draw() {
 	}
 };
 
-void	OBJMesh::SetTexturesFromMTL(string &mtlFile, string &mtlType) {
+void	OBJMesh::SetTexturesFromMTL(std::string &mtlFile, std::string &mtlType) {
 	if(mtlType.empty() || mtlFile.empty()) {
 		return;
 	}
 
-	map <string, MTLInfo>::iterator i = materials.find(mtlType);
+	std::map <std::string, MTLInfo>::iterator i = materials.find(mtlType);
 
 	if(i != materials.end()) {
 		if(!i->second.diffuse.empty())	{
@@ -277,14 +276,14 @@ void	OBJMesh::SetTexturesFromMTL(string &mtlFile, string &mtlType) {
 		return;
 	}
 
-	std::ifstream f(string(MESHDIR + mtlFile).c_str(),std::ios::in);
+	std::ifstream f(std::string(MESHDIR + mtlFile).c_str(),std::ios::in);
 
 	if(!f) {//Oh dear, it can't find the file :(
 		return;
 	}
 
 	MTLInfo currentMTL;
-	string  currentMTLName;
+	std::string  currentMTLName;
 	
 	int mtlCount = 0;
 
@@ -311,33 +310,33 @@ void	OBJMesh::SetTexturesFromMTL(string &mtlFile, string &mtlType) {
 		else if(currentLine == MTLDIFFUSEMAP) {
 			f >> currentMTL.diffuse;
 
-			if(currentMTL.diffuse.find_last_of('/') != string::npos) {
+			if(currentMTL.diffuse.find_last_of('/') != std::string::npos) {
 				int at = currentMTL.diffuse.find_last_of('/');
 				currentMTL.diffuse = currentMTL.diffuse.substr(at+1);
 			}
-			else if(currentMTL.diffuse.find_last_of('\\') != string::npos) {
+			else if(currentMTL.diffuse.find_last_of('\\') != std::string::npos) {
 				int at = currentMTL.diffuse.find_last_of('\\');
 				currentMTL.diffuse = currentMTL.diffuse.substr(at+1);
 			}
 
 			if(!currentMTL.diffuse.empty()) {
-				currentMTL.diffuseNum = SOIL_load_OGL_texture(string(TEXTUREDIR + currentMTL.diffuse).c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y | SOIL_FLAG_TEXTURE_REPEATS);
+				currentMTL.diffuseNum = SOIL_load_OGL_texture(std::string(TEXTUREDIR + currentMTL.diffuse).c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y | SOIL_FLAG_TEXTURE_REPEATS);
 			}
 		}
 		else if(currentLine == MTLBUMPMAP || currentLine == MTLBUMPMAPALT) {
 			f >> currentMTL.bump;
 
-			if(currentMTL.bump.find_last_of('/') != string::npos) {
+			if(currentMTL.bump.find_last_of('/') != std::string::npos) {
 				int at = currentMTL.bump.find_last_of('/');
 				currentMTL.bump = currentMTL.bump.substr(at+1);
 			}
-			else if(currentMTL.bump.find_last_of('\\') != string::npos) {
+			else if(currentMTL.bump.find_last_of('\\') != std::string::npos) {
 				int at = currentMTL.bump.find_last_of('\\');
 				currentMTL.bump = currentMTL.bump.substr(at+1);
 			}
 
 			if(!currentMTL.bump.empty()) {
-				currentMTL.bumpNum = SOIL_load_OGL_texture(string(TEXTUREDIR + currentMTL.bump).c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y | SOIL_FLAG_TEXTURE_REPEATS);
+				currentMTL.bumpNum = SOIL_load_OGL_texture(std::string(TEXTUREDIR + currentMTL.bump).c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y | SOIL_FLAG_TEXTURE_REPEATS);
 			}
 		}
 	}
@@ -358,7 +357,7 @@ The mtl files in that big pack of city buildings haven't been exported correctly
 void	OBJMesh::FixTextures(MTLInfo &info) {
 	if(!info.bumpNum) {
 
-		string temp = info.diffuse;
+		std::string temp = info.diffuse;
 
 		if(temp[temp.size() - 5] == 'd') {
 			temp[temp.size() - 5] = 'n';
@@ -369,7 +368,6 @@ void	OBJMesh::FixTextures(MTLInfo &info) {
 
 		info.bump = temp;
 
-		info.bumpNum = SOIL_load_OGL_texture(string(TEXTUREDIR + info.bump).c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y |  SOIL_FLAG_TEXTURE_REPEATS);
+		info.bumpNum = SOIL_load_OGL_texture(std::string(TEXTUREDIR + info.bump).c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y |  SOIL_FLAG_TEXTURE_REPEATS);
 	}
 }
-#endif
