@@ -35,7 +35,7 @@ HeightMap::HeightMap(std::string name)
 		}
 	}
 
-	delete data;
+	delete[] data;
 
 	numIndices = 0;
 

@@ -192,7 +192,7 @@ void Window::CheckMessages(MSG &msg)	{
 			if (mouse && raw->header.dwType == RIM_TYPEMOUSE) {
 				Window::GetMouse()->Update(raw);
 			}
-			delete lpb;
+			delete[] lpb;
 		}break;
 
 		default: {								// If Not, Deal With Window Messages
