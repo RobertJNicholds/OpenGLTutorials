@@ -30,6 +30,7 @@ public:
 		this->pitch		= pitch;
 		this->yaw		= yaw;
 		this->position	= position;
+		this->direction = Vector3(0.0f, 0.0f, -1.0f);
 	}
 
 	~Camera(void){};
@@ -65,6 +66,5 @@ protected:
 	float	pitch;
 	float	roll;
 	Vector3 position;
-
 	float speed;
 };
