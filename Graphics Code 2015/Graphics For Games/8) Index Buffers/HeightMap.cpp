@@ -57,5 +57,31 @@ HeightMap::HeightMap(std::string name)
 	}
 	
 	GenerateNormals();
+	GenerateTangents();
 	BufferData();
+}
+
+void HeightMap::Draw()
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, snow);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, bumpTexture);
+
+	glBindVertexArray(arrayObject);
+	if (bufferObject[INDEX_BUFFER])
+	{
+		glDrawElements(type, numIndices, GL_UNSIGNED_INT, 0);
+	}
+	else
+	{
+		glDrawArrays(type, 0, numVertices);
+	}
+
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

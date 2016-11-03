@@ -13,6 +13,7 @@ public:
 		this->radius = radius;
 	}
 
+	Light(void) {};
 	~Light(void) {};
 
 	Vector3		GetPosition() const { return position; }

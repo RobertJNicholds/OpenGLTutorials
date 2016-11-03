@@ -21,5 +21,5 @@ public:
 	HeightMap(std::string name);
 	~HeightMap(void) {};
 
-
+	virtual void Draw();
 };
