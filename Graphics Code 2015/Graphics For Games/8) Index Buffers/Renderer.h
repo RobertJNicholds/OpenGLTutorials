@@ -19,6 +19,13 @@ protected:
 	void DrawSkybox();
 	void DrawWater();
 	void DrawPostProcess();
+	void PresentScene();
+
+	void GenerateFramebuffers();
+	void GenerateFramebufferTex();
+
+	void SwitchToPerspective();
+	void SwitchToOrthographic();
 
 	HeightMap * heightMap;
 	Camera* camera;
@@ -29,6 +36,7 @@ protected:
 	Shader* lightShader;
 	Shader* reflectShader;
 	Shader* postShader;
+	Shader* sceneShader;
 
 	GLuint cubeMap;
 	float waterRotate;

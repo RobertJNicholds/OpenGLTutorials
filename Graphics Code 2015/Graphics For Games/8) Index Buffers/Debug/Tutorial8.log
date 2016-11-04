@@ -1,4 +1,4 @@
-﻿Build started 03/11/2016 14:14:26.
+﻿Build started 04/11/2016 13:23:58.
      1>Project "D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\Graphics For Games\8) Index Buffers\Tutorial8.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt Renderer.cpp
@@ -12,4 +12,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:00.79
+Time Elapsed 00:00:00.84
