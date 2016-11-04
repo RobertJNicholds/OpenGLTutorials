@@ -95,7 +95,12 @@ float IsEdge(in vec2 coords)
 
 void main()
 {
-	vec4 colour = vec4(0.0, 0.0, 0.0, 1.0);
-	colour.r = IsEdge(IN.texCoord.xy);
+	vec4 colour = texture(diffuseTex, IN.texCoord);
+	//vec4 colour = vec4(0.0, 0.0, 0.0, 1.0);	
+	if(IsEdge(IN.texCoord.xy) == 1)
+	{
+		colour.r = 1.0;
+	}
+	
 	fragColour = colour;
 }

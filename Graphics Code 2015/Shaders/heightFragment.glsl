@@ -24,15 +24,7 @@ void main(void){
 
 vec4 diffuse = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	if(IN.height > 1.0f)
-	{
-		diffuse =  texture(snowTex, IN.texCoord);	
-	}
-	
-	if(IN.height < 1.0f)
-	{
-		diffuse = texture(diffuseTex, IN.texCoord);
-	}	
+	//diffuse = mix(texture2D(snowTex, texCoord), texture2D(bumpTex, texCoord), IN.worldPos.y);
 
 	mat3 TBN = mat3(IN.tangent, IN.binormal, IN.normal);
 	vec3 N = normalize(TBN * (texture(bumpTex,

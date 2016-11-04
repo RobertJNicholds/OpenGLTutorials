@@ -272,22 +272,22 @@ void Renderer::DrawPostProcess()
 	glUniform2f(glGetUniformLocation(currentShader->GetProgram(),
 		"pixelSize"), 1.0f / width, 1.0f / height);
 
-	for (int i = 0; i < 1; ++i) {
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-			GL_TEXTURE_2D, bufferColourTex[1], 0);
-		glUniform1i(glGetUniformLocation(currentShader->GetProgram(),
-			"isVertical"), 0);
 
-		quad->SetTexture(bufferColourTex[0]);
-		quad->Draw();
-		// Now to swap the colour buffers , and do the second blur pass
-		glUniform1i(glGetUniformLocation(currentShader->GetProgram(),
-			"isVertical"), 1);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-			GL_TEXTURE_2D, bufferColourTex[0], 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+		GL_TEXTURE_2D, bufferColourTex[1], 0);
+	glUniform1i(glGetUniformLocation(currentShader->GetProgram(),
+		"isVertical"), 0);
 
-		quad->SetTexture(bufferColourTex[1]);
-		quad->Draw();	}
+	quad->SetTexture(bufferColourTex[0]);
+	quad->Draw();
+	// Now to swap the colour buffers , and do the second blur pass
+	glUniform1i(glGetUniformLocation(currentShader->GetProgram(),
+		"isVertical"), 1);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+		GL_TEXTURE_2D, bufferColourTex[0], 0);
+
+	quad->SetTexture(bufferColourTex[1]);
+	quad->Draw();	
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glUseProgram(0);
