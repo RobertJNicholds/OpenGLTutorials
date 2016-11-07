@@ -1,6 +1,7 @@
 d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\nclgl.pdb
 d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\nclgl.idb
 d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\camera.obj
+d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\frustum.obj
 d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\gametimer.obj
 d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\keyboard.obj
 d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\matrix4.obj
@@ -12,38 +13,16 @@ d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\mesh.obj
 d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\mouse.obj
 d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\objmesh.obj
 d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\oglrenderer.obj
+d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\plane.obj
 d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\quaternion.obj
+d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\scenenode.obj
 d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\shader.obj
 d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\window.obj
-d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\scenenode.obj
-d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\frustum.obj
-d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\plane.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\nclgl.pdb
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\nclgl.idb
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\camera.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\frustum.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\gametimer.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\keyboard.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\matrix4.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\md5anim.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\md5filedata.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\md5mesh.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\md5node.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\mesh.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\mouse.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\objmesh.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\oglrenderer.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\plane.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\quaternion.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\scenenode.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\shader.obj
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\window.obj
 d:\docs\git\opengltutorials\graphics code 2015\graphics for games\debug\nclgl.lib
-r:\documents\github\opengltutorials\graphics code 2015\graphics for games\debug\nclgl.lib
-r:\documents\github\opengltutorials\graphics code 2015\graphics for games\debug\nclgl.pdb
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\nclgl.tlog\cl.command.1.tlog
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\nclgl.tlog\cl.read.1.tlog
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\nclgl.tlog\cl.write.1.tlog
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\nclgl.tlog\lib-link.read.1.tlog
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\nclgl.tlog\lib-link.write.1.tlog
-r:\documents\github\opengltutorials\graphics code 2015\nclgl\debug\nclgl.tlog\lib.command.1.tlog
+d:\docs\git\opengltutorials\graphics code 2015\graphics for games\debug\nclgl.pdb
+d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\nclgl.tlog\cl.command.1.tlog
+d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\nclgl.tlog\cl.read.1.tlog
+d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\nclgl.tlog\cl.write.1.tlog
+d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\nclgl.tlog\lib-link.read.1.tlog
+d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\nclgl.tlog\lib-link.write.1.tlog
+d:\docs\git\opengltutorials\graphics code 2015\nclgl\debug\nclgl.tlog\lib.command.1.tlog

@@ -4,6 +4,8 @@
 #include "../../nclgl/Camera.h"
 #include "HeightMap.h"
 
+#define SHADOWSIZE 2048
+
 class Renderer : public OGLRenderer
 {
 public:
@@ -19,6 +21,7 @@ protected:
 	void DrawSkybox();
 	void DrawWater();
 	void DrawPostProcess();
+	void DrawShadowScene();
 	void PresentScene();
 
 	void GenerateFramebuffers();
@@ -37,6 +40,7 @@ protected:
 	Shader* reflectShader;
 	Shader* postShader;
 	Shader* sceneShader;
+	Shader* shadowShader;
 
 	GLuint cubeMap;
 	float waterRotate;
@@ -46,4 +50,7 @@ protected:
 	GLuint processFBO;
 	GLuint bufferColourTex[2];
 	GLuint bufferDepthTex;
+
+	GLuint shadowTex;
+	GLuint shadowFBO;
 };

@@ -1,0 +1,19 @@
+﻿Build started 07/11/2016 14:38:00.
+     1>Project "D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\Graphics For Games\Extra - 2D to 3D Projection\Extra - 2D to 3D Projection.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp Ray.cpp Renderer.cpp
+         Renderer.cpp
+     1>d:\docs\git\opengltutorials\graphics code 2015\graphics for games\extra - 2d to 3d projection\renderer.cpp(101): error C2039: 'GetChildIteratorEnd' : is not a member of 'SceneNode'
+                 d:\docs\git\opengltutorials\graphics code 2015\nclgl\scenenode.h(9) : see declaration of 'SceneNode'
+     1>d:\docs\git\opengltutorials\graphics code 2015\graphics for games\extra - 2d to 3d projection\renderer.cpp(288): error C2039: 'GetChildIteratorEnd' : is not a member of 'SceneNode'
+                 d:\docs\git\opengltutorials\graphics code 2015\nclgl\scenenode.h(9) : see declaration of 'SceneNode'
+         Ray.cpp
+     1>d:\docs\git\opengltutorials\graphics code 2015\graphics for games\extra - 2d to 3d projection\ray.cpp(27): error C2039: 'GetChildIteratorEnd' : is not a member of 'SceneNode'
+                 d:\docs\git\opengltutorials\graphics code 2015\nclgl\scenenode.h(9) : see declaration of 'SceneNode'
+         main.cpp
+         Generating Code...
+     1>Done Building Project "D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\Graphics For Games\Extra - 2D to 3D Projection\Extra - 2D to 3D Projection.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.93
