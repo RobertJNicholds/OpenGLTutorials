@@ -5,12 +5,16 @@ Renderer::Renderer(Window &parent) : OGLRenderer(parent)
 	wireframe = false;
 	terrain = new Terrain((std::string)TEXTUREDIR"terrain.raw");
 	camera = new Camera();
+	camera->SetPosition(Vector3(907.f, 226.f, 1023.f));
 
 	LoadTextures();
 	LoadShaders();
 
 	projMatrix = Matrix4::Perspective(1.0f, 10000.0f,
 		(float)width / (float)height, 45.0f);
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
 
 	init = true;
 }
@@ -22,6 +26,12 @@ Renderer::~Renderer(void)
 	delete terrainShader;
 
 	currentShader = 0;
+
+	glDeleteTextures(1, &bufferColourTex);
+	glDeleteTextures(1, &bufferDepthTex);
+
+	glDeleteFramebuffers(1, &bufferFBO);
+	glDeleteFramebuffers(1, &processFBO);
 }
 
 void Renderer::LoadTextures()
@@ -44,6 +54,9 @@ void Renderer::LoadTextures()
 
 	SetTextureRepeating(terrain->GetGrassTex(), true);
 	SetTextureRepeating(terrain->GetRockTex(), true);
+
+	GenerateFramebufferTextures();
+	GenerateFramebuffers();
 }
 
 void Renderer::LoadShaders()
@@ -55,6 +68,48 @@ void Renderer::LoadShaders()
 		return;
 }
 
+void Renderer::GenerateFramebufferTextures()
+{
+	glGenTextures(1, &bufferDepthTex);
+	glBindTexture(GL_TEXTURE_2D, bufferDepthTex);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, width, height,
+		0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, NULL);
+
+	glGenTextures(1, &bufferColourTex);
+	glBindTexture(GL_TEXTURE_2D, bufferColourTex);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height,
+		0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void Renderer::GenerateFramebuffers()
+{
+	glGenFramebuffers(1, &bufferFBO); //scene buffer
+	glGenFramebuffers(1, &processFBO); //post-process buffer
+
+	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+						   GL_TEXTURE_2D, bufferDepthTex, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_STENCIL_ATTACHMENT,
+						   GL_TEXTURE_2D, bufferDepthTex, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+						   GL_TEXTURE_2D, bufferColourTex, 0);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) !=
+		GL_FRAMEBUFFER_COMPLETE || !bufferDepthTex || !bufferColourTex)
+		return;
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
 void Renderer::UpdateScene(float msec)
 {
 	camera->UpdateCamera(msec);
@@ -62,14 +117,17 @@ void Renderer::UpdateScene(float msec)
 }
 
 void Renderer::RenderScene()
-{
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+{	
 	DrawTerrain();
+	DrawPostProcess();
+	PresentScene();
 	SwapBuffers();
 }
 
 void Renderer::DrawTerrain()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	SetCurrentShader(terrainShader);
 	if(wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -86,6 +144,17 @@ void Renderer::DrawTerrain()
 	terrain->Draw();
 
 	glUseProgram(0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void Renderer::DrawPostProcess()
+{
+
+}
+
+void Renderer::PresentScene()
+{
+
 }
 
 void Renderer::ToggleWireframe()

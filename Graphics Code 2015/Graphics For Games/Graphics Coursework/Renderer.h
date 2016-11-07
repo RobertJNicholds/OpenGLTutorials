@@ -19,7 +19,11 @@ public:
 protected:
 
 	void DrawTerrain();
+	void DrawPostProcess();
+	void PresentScene();
 
+	void GenerateFramebuffers();
+	void GenerateFramebufferTextures();
 	void LoadTextures();
 	void LoadShaders();
 
@@ -28,5 +32,10 @@ protected:
 
 	Shader* terrainShader;
 
-	bool wireframe;
+	GLuint bufferFBO;
+	GLuint processFBO;
+	GLuint bufferColourTex;
+	GLuint bufferDepthTex;
+
+	bool wireframe;	
 };
