@@ -79,8 +79,9 @@ void Terrain::Draw()
 	glBindTexture(GL_TEXTURE_2D, rockTex);
 
 	glBindVertexArray(arrayObject);
-	
-	glDrawElements(type, numIndices, GL_UNSIGNED_INT, 0);
+
+	//glDrawElements(type, numIndices, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_LINES, numIndices, GL_UNSIGNED_INT, 0);
 
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
