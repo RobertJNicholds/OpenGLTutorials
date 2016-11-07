@@ -313,7 +313,7 @@ void Renderer::DrawPostProcess()
 	glBindFramebuffer(GL_FRAMEBUFFER, processFBO);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
 		GL_TEXTURE_2D, bufferColourTex[1], 0);
-	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	//glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
 	SetCurrentShader(postShader);
 	

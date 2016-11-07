@@ -6,6 +6,7 @@ Renderer::Renderer(Window &parent) : OGLRenderer(parent)
 	terrain = new Terrain((std::string)TEXTUREDIR"terrain.raw");
 	camera = new Camera();
 	camera->SetPosition(Vector3(907.f, 226.f, 1023.f));
+	quad = Mesh::GenerateQuad();
 
 	LoadTextures();
 	LoadShaders();
@@ -24,6 +25,7 @@ Renderer::~Renderer(void)
 	delete terrain;
 	delete camera;
 	delete terrainShader;
+	delete postShader;
 
 	currentShader = 0;
 
@@ -64,7 +66,10 @@ void Renderer::LoadShaders()
 	terrainShader = new Shader(SHADERDIR"CW/terrainVertex.glsl",
 							   SHADERDIR"CW/terrainFragment.glsl");
 
-	if (!terrainShader->LinkProgram())
+	postShader	=	new Shader(SHADERDIR"CW/postVertex.glsl",
+							   SHADERDIR"CW/postFragment.glsl");
+
+	if (!terrainShader->LinkProgram() || !postShader->LinkProgram())
 		return;
 }
 
@@ -126,9 +131,10 @@ void Renderer::RenderScene()
 
 void Renderer::DrawTerrain()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	SetCurrentShader(terrainShader);
+	
 	if(wireframe)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
@@ -139,8 +145,12 @@ void Renderer::DrawTerrain()
 	glUniform1i(glGetUniformLocation(
 		currentShader->GetProgram(), "rockTex"), 1);
 
-	UpdateShaderMatrices();
+	modelMatrix.ToIdentity();
+	textureMatrix.ToIdentity();
+	viewMatrix = camera->BuildViewMatrix();
+	SwitchToPerspective();
 
+	UpdateShaderMatrices();
 	terrain->Draw();
 
 	glUseProgram(0);
@@ -149,12 +159,52 @@ void Renderer::DrawTerrain()
 
 void Renderer::DrawPostProcess()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, processFBO);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	SetCurrentShader(postShader);
+
+	SwitchToOrthographic();
+	modelMatrix.ToIdentity();
+	textureMatrix.ToIdentity();
+	viewMatrix.ToIdentity();
+	UpdateShaderMatrices();
+
+	glDisable(GL_DEPTH_TEST);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+		GL_TEXTURE_2D, bufferColourTex, 0);
+
+	quad->SetTexture(bufferColourTex);
+	quad->Draw();
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glUseProgram(0);
+	glEnable(GL_DEPTH_TEST);
 }
 
 void Renderer::PresentScene()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+	SetCurrentShader(terrainShader);
+	SwitchToOrthographic();
+	viewMatrix.ToIdentity();
+	UpdateShaderMatrices();
+	quad->SetTexture(bufferColourTex);
+	quad->Draw();
+	glUseProgram(0);
+}
 
+void Renderer::SwitchToPerspective()
+{
+	projMatrix = Matrix4::Perspective(1.0f, 10000.0f,
+		(float)width / (float)height, 45.0f);
+}
+
+void Renderer::SwitchToOrthographic()
+{
+	projMatrix = Matrix4::Orthographic(-1, 1, 1, -1, -1, 1);
 }
 
 void Renderer::ToggleWireframe()

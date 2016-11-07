@@ -27,15 +27,21 @@ protected:
 	void LoadTextures();
 	void LoadShaders();
 
+	void SwitchToPerspective();
+	void SwitchToOrthographic();
+
 	Terrain* terrain;
 	Camera* camera;
 
 	Shader* terrainShader;
+	Shader* postShader;
 
 	GLuint bufferFBO;
 	GLuint processFBO;
 	GLuint bufferColourTex;
 	GLuint bufferDepthTex;
+
+	Mesh* quad;
 
 	bool wireframe;	
 };
