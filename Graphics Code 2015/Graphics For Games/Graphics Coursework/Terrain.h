@@ -3,15 +3,15 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-
 #include "../../nclgl/Mesh.h"
+#include "lodepng.h"
 
-#define RAW_WIDTH 257
-#define RAW_HEIGHT 257
+#define RAW_WIDTH 1081
+#define RAW_HEIGHT 1081
 
-#define HEIGHTMAP_X 16.0f
-#define HEIGHTMAP_Z 16.0f
-#define HEIGHTMAP_Y 1.25f
+#define HEIGHTMAP_X 256.0f
+#define HEIGHTMAP_Z 256.0f
+#define HEIGHTMAP_Y 100.0f
 #define HEIGHTMAP_TEX_X 1.0f / 16.0f
 #define HEIGHTMAP_TEX_Z 1.0f / 16.0f
 

@@ -19,6 +19,7 @@ public:
 protected:
 
 	void DrawTerrain();
+	void DrawSkybox();
 	void DrawPostProcess();
 	void PresentScene();
 
@@ -34,6 +35,7 @@ protected:
 	Camera* camera;
 
 	Shader* terrainShader;
+	Shader* skyboxShader;
 	Shader* postShader;
 
 	GLuint bufferFBO;
@@ -42,6 +44,7 @@ protected:
 	GLuint bufferDepthTex;
 
 	Mesh* quad;
+	GLuint cubeMap;
 
 	bool wireframe;	
 };

@@ -3,7 +3,7 @@
 Renderer::Renderer(Window &parent) : OGLRenderer(parent)
 {
 	wireframe = false;
-	terrain = new Terrain((std::string)TEXTUREDIR"terrain.raw");
+	terrain = new Terrain((std::string)TEXTUREDIR"fuji60km.png");
 	camera = new Camera();
 	camera->SetPosition(Vector3(907.f, 226.f, 1023.f));
 	quad = Mesh::GenerateQuad();
@@ -11,7 +11,7 @@ Renderer::Renderer(Window &parent) : OGLRenderer(parent)
 	LoadTextures();
 	LoadShaders();
 
-	projMatrix = Matrix4::Perspective(1.0f, 10000.0f,
+	projMatrix = Matrix4::Perspective(1.0f, 10000000000.0f,
 		(float)width / (float)height, 45.0f);
 
 	glEnable(GL_DEPTH_TEST);
@@ -25,7 +25,9 @@ Renderer::~Renderer(void)
 	delete terrain;
 	delete camera;
 	delete terrainShader;
+	delete skyboxShader;
 	delete postShader;
+	delete quad;
 
 	currentShader = 0;
 
@@ -50,12 +52,21 @@ void Renderer::LoadTextures()
 		TEXTUREDIR"snow.tga",
 		SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS));
 
+	cubeMap = SOIL_load_OGL_cubemap(
+		TEXTUREDIR"FullMoonRight.png", TEXTUREDIR"FullMoonLeft.png",
+		TEXTUREDIR"FullMoonUp.png", TEXTUREDIR"FullMoonDown.png",
+		TEXTUREDIR"FullMoonBack.png", TEXTUREDIR"FullMoonFront.png",
+		SOIL_LOAD_RGB,
+		SOIL_CREATE_NEW_ID, 0);
+
 	if (!terrain->GetGrassTex() || !terrain->GetRockTex()
-		|| !terrain->GetSnowTex())
+		|| !terrain->GetSnowTex() || !cubeMap)
 		return;
 
 	SetTextureRepeating(terrain->GetGrassTex(), true);
 	SetTextureRepeating(terrain->GetRockTex(), true);
+
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	GenerateFramebufferTextures();
 	GenerateFramebuffers();
@@ -66,10 +77,14 @@ void Renderer::LoadShaders()
 	terrainShader = new Shader(SHADERDIR"CW/terrainVertex.glsl",
 							   SHADERDIR"CW/terrainFragment.glsl");
 
-	postShader	=	new Shader(SHADERDIR"CW/postVertex.glsl",
+	skyboxShader  = new Shader(SHADERDIR"CW/skyboxVertex.glsl",
+							   SHADERDIR"CW/skyboxFragment.glsl");
+
+	postShader	  = new Shader(SHADERDIR"CW/postVertex.glsl",
 							   SHADERDIR"CW/postFragment.glsl");
 
-	if (!terrainShader->LinkProgram() || !postShader->LinkProgram())
+	if (!terrainShader->LinkProgram() || !postShader->LinkProgram()
+		||!skyboxShader->LinkProgram())
 		return;
 }
 
@@ -123,16 +138,21 @@ void Renderer::UpdateScene(float msec)
 
 void Renderer::RenderScene()
 {	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	DrawSkybox();
 	DrawTerrain();
-	DrawPostProcess();
-	PresentScene();
+	
+	
+	//DrawPostProcess();
+	//PresentScene();
 	SwapBuffers();
 }
 
 void Renderer::DrawTerrain()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);	
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	SetCurrentShader(terrainShader);
 	
 	if(wireframe)
@@ -144,6 +164,11 @@ void Renderer::DrawTerrain()
 		currentShader->GetProgram(), "grassTex"), 0);
 	glUniform1i(glGetUniformLocation(
 		currentShader->GetProgram(), "rockTex"), 1);
+
+	Vector3 dirLight = Vector3(0.0f, -0.5f, 0.5f);
+
+	glUniform3fv(glGetUniformLocation(
+		currentShader->GetProgram(), "light_direction"), 1, (float*)&dirLight);
 
 	modelMatrix.ToIdentity();
 	textureMatrix.ToIdentity();
@@ -157,6 +182,26 @@ void Renderer::DrawTerrain()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void Renderer::DrawSkybox()
+{
+	//glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
+	
+	glDepthMask(GL_FALSE);
+	SetCurrentShader(skyboxShader);
+
+	glUniform1i(glGetUniformLocation(currentShader->GetProgram(),
+		"cubeTex"), 0);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap);
+
+	UpdateShaderMatrices();
+	quad->Draw();
+
+	glUseProgram(0);
+	glDepthMask(GL_TRUE);
+}
+
 void Renderer::DrawPostProcess()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, processFBO);
@@ -168,6 +213,13 @@ void Renderer::DrawPostProcess()
 	modelMatrix.ToIdentity();
 	textureMatrix.ToIdentity();
 	viewMatrix.ToIdentity();
+
+	glUniform1i(glGetUniformLocation(currentShader->GetProgram(),
+		"cubeTex"), 0);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap);
+
 	UpdateShaderMatrices();
 
 	glDisable(GL_DEPTH_TEST);
@@ -198,7 +250,7 @@ void Renderer::PresentScene()
 
 void Renderer::SwitchToPerspective()
 {
-	projMatrix = Matrix4::Perspective(1.0f, 10000.0f,
+	projMatrix = Matrix4::Perspective(1.0f, 10000000.0f,
 		(float)width / (float)height, 45.0f);
 }
 

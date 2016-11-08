@@ -8,9 +8,11 @@ uniform mat4 textureMatrix;
 in vec3 position;
 in vec4 colour;
 in vec2 texCoord;
+in vec3 normal;
 
 
 out Vertex {	
+	vec3 normal;
 	vec2 texCoord;
 	vec4 colour;
 	float height;
@@ -21,8 +23,9 @@ void main(void) {
 	gl_Position = mvp * vec4(position, 1.0);
 	OUT.texCoord = (textureMatrix * vec4(texCoord, 0.0, 1.0)).xy;
 	OUT.colour = colour;
+	OUT.normal = normal;
 
-	if(position.y > 140.0f)
+	if(position.y > 8800.0f)
 	{
 		OUT.height = 2.0f;
 	}

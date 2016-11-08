@@ -4,11 +4,19 @@ Terrain::Terrain(std::string &filename)
 {
 	grassTex = NULL;
 	rockTex = NULL;
-	snowTex = NULL;
+	snowTex = NULL;	
 
-	std::ifstream file(filename.c_str(), std::ios::binary);
-	if (!file)
+	std::vector<unsigned char> image;
+	
+	unsigned width, height;
+	unsigned error = lodepng::decode(image, width, height, filename);
+
+	// If there's an error, display it.
+	if (error != 0)
+	{
+		std::cout << "error " << error << ": " << lodepng_error_text(error) << std::endl;
 		return;
+	}
 
 	numVertices = RAW_WIDTH * RAW_HEIGHT;
 	numIndices = (RAW_WIDTH - 1) * (RAW_HEIGHT - 1) * 6;
@@ -16,11 +24,8 @@ Terrain::Terrain(std::string &filename)
 	textureCoords = new Vector2[numVertices];
 	indices = new GLuint[numIndices];
 	colours = new Vector4[numVertices];
-
-	unsigned char* data = new unsigned char[numVertices];
-	file.read((char*)data, numVertices * sizeof(unsigned char));
-	file.close();
-
+	
+	int imgIDX = 0;
 	for (int x = 0; x < RAW_WIDTH; ++x)
 	{
 		for (int z = 0; z < RAW_HEIGHT; ++z)
@@ -29,19 +34,21 @@ Terrain::Terrain(std::string &filename)
 
 			vertices[offset] = Vector3(
 				x * HEIGHTMAP_X,
-				data[offset] * HEIGHTMAP_Y,
+				image[imgIDX] * HEIGHTMAP_Y,
 				z * HEIGHTMAP_Z);
 
 			textureCoords[offset] = Vector2(
 				x * HEIGHTMAP_TEX_X, z * HEIGHTMAP_TEX_Z);
+
+			imgIDX += 4;
 		}
 	}
 
-	delete[] data;
-
 	numIndices = 0;
-
+	//bool tri = true;
 	for (int x = 0; x < RAW_WIDTH - 1; ++x) {
+		/*int N = x * ((RAW_WIDTH - 1) + 1);
+		tri = !tri;*/
 		for (int z = 0; z < RAW_HEIGHT - 1; ++z) {
 			int a = (x * (RAW_WIDTH)) + z;
 			int b = ((x + 1) * (RAW_WIDTH)) + z;
@@ -55,6 +62,26 @@ Terrain::Terrain(std::string &filename)
 			indices[numIndices++] = a;
 			indices[numIndices++] = d;
 			indices[numIndices++] = c;
+			/*if (tri)
+			{
+				indices[numIndices++] = (N + z + (RAW_WIDTH - 1) + 2);
+				indices[numIndices++] = (N + z + (RAW_WIDTH - 1) + 1);
+				indices[numIndices++] = (N + z);
+				indices[numIndices++] = (N + z + 1);
+				indices[numIndices++] = (N + z + (RAW_WIDTH - 1) + 2);
+				indices[numIndices++] = (N + z);
+			}
+			else
+			{
+				indices[numIndices++] = (N + z + 1);
+				indices[numIndices++] = (N + z + (RAW_WIDTH - 1) + 1);
+				indices[numIndices++] = (N + z);
+				indices[numIndices++] = (N + z + (RAW_WIDTH - 1) + 2);
+				indices[numIndices++] = (N + z + (RAW_WIDTH - 1) + 1);
+				indices[numIndices++] = (N + z + 1);
+			}
+
+			tri = !tri;*/
 		}
 	}
 
