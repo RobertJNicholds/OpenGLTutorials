@@ -16,10 +16,8 @@ int main()
 	w.LockMouseToWindow(true);
 	w.ShowOSPointer(false);
 
-	while (w.UpdateWindow() && !Window::GetKeyboard()->KeyDown(KEYBOARD_ESCAPE)) {
+	while (w.UpdateWindow() && !Window::GetKeyboard()->KeyDown(KEYBOARD_ESCAPE)) {		
 		
-		if (Window::GetKeyboard()->KeyDown(KEYBOARD_1))
-			renderer.ToggleWireframe();
 		
 		renderer.UpdateScene(w.GetTimer()->GetTimedMS());
 		renderer.RenderScene();

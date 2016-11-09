@@ -2,7 +2,6 @@
 
 Renderer::Renderer(Window &parent) : OGLRenderer(parent)
 {
-	wireframe = false;
 	terrain = new Terrain((std::string)TEXTUREDIR"fuji60km.png");
 	camera = new Camera();
 	camera->SetPosition(Vector3(907.f, 226.f, 1023.f));
@@ -138,27 +137,22 @@ void Renderer::UpdateScene(float msec)
 
 void Renderer::RenderScene()
 {	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	DrawSkybox();
+	//DrawSkybox();
 	DrawTerrain();
 	
 	
-	//DrawPostProcess();
-	//PresentScene();
+	DrawPostProcess();
+	PresentScene();
 	SwapBuffers();
 }
 
 void Renderer::DrawTerrain()
 {
-	//glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);	
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	SetCurrentShader(terrainShader);
-	
-	if(wireframe)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glUniform1i(glGetUniformLocation(
 		currentShader->GetProgram(), "grassTex"), 0);
@@ -257,9 +251,4 @@ void Renderer::SwitchToPerspective()
 void Renderer::SwitchToOrthographic()
 {
 	projMatrix = Matrix4::Orthographic(-1, 1, 1, -1, -1, 1);
-}
-
-void Renderer::ToggleWireframe()
-{
-	wireframe = !wireframe;
 }

@@ -14,8 +14,6 @@ public:
 	virtual void RenderScene();
 	virtual void UpdateScene(float msec);
 
-	void ToggleWireframe();
-
 protected:
 
 	void DrawTerrain();
@@ -45,6 +43,4 @@ protected:
 
 	Mesh* quad;
 	GLuint cubeMap;
-
-	bool wireframe;	
 };
