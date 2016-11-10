@@ -10,12 +10,13 @@ in vec4 colour;
 in vec2 texCoord;
 in vec3 normal;
 
-
 out Vertex {	
 	vec3 normal;
 	vec2 texCoord;
 	vec4 colour;
 	float height;
+	vec3 worldPos;
+	vec4 shadowProj;
 } OUT;
 
 void main(void) {
@@ -24,6 +25,8 @@ void main(void) {
 	OUT.texCoord = (textureMatrix * vec4(texCoord, 0.0, 1.0)).xy;
 	OUT.colour = colour;
 	OUT.normal = normal;
+	OUT.worldPos = (modelMatrix * vec4(position, 1.0)).xyz;
+	OUT.shadowProj = (textureMatrix * vec4(position + (normal * 1.5), 1));
 
 	if(position.y > 8800.0f)
 	{

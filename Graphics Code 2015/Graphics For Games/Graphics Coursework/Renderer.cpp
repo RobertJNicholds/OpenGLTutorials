@@ -26,15 +26,18 @@ Renderer::~Renderer(void)
 	delete terrainShader;
 	delete skyboxShader;
 	delete postShader;
+	delete shadowShader;
 	delete quad;
 
 	currentShader = 0;
 
 	glDeleteTextures(1, &bufferColourTex);
 	glDeleteTextures(1, &bufferDepthTex);
+	glDeleteTextures(1, &shadowTex);
 
 	glDeleteFramebuffers(1, &bufferFBO);
 	glDeleteFramebuffers(1, &processFBO);
+	glDeleteFramebuffers(1, &shadowFBO);
 }
 
 void Renderer::LoadTextures()
@@ -59,7 +62,7 @@ void Renderer::LoadTextures()
 		SOIL_CREATE_NEW_ID, 0);
 
 	if (!terrain->GetGrassTex() || !terrain->GetRockTex()
-		|| !terrain->GetSnowTex() || !cubeMap)
+		|| !terrain->GetSnowTex() || !cubeMap || !shadowTex)
 		return;
 
 	SetTextureRepeating(terrain->GetGrassTex(), true);
@@ -82,8 +85,12 @@ void Renderer::LoadShaders()
 	postShader	  = new Shader(SHADERDIR"CW/postVertex.glsl",
 							   SHADERDIR"CW/postFragment.glsl");
 
+	shadowShader  = new Shader(SHADERDIR"CW/shadowVertex.glsl",
+							   SHADERDIR"CW/shadowFragment.glsl");
+
+
 	if (!terrainShader->LinkProgram() || !postShader->LinkProgram()
-		||!skyboxShader->LinkProgram())
+		||!skyboxShader->LinkProgram() || !shadowShader->LinkProgram())
 		return;
 }
 
@@ -107,6 +114,18 @@ void Renderer::GenerateFramebufferTextures()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height,
 		0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
+	glGenTextures(1, &shadowTex);
+	glBindTexture(GL_TEXTURE_2D, shadowTex);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
+		2048, 2048, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE,
+		GL_COMPARE_R_TO_TEXTURE);
+
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
@@ -126,6 +145,15 @@ void Renderer::GenerateFramebuffers()
 		GL_FRAMEBUFFER_COMPLETE || !bufferDepthTex || !bufferColourTex)
 		return;
 
+	glGenFramebuffers(1, &shadowFBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+		GL_TEXTURE_2D, shadowTex, 0);
+	glDrawBuffer(GL_NONE);
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) !=
+		GL_FRAMEBUFFER_COMPLETE || !shadowTex)
+		return;
+
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -140,24 +168,29 @@ void Renderer::RenderScene()
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	//DrawSkybox();
+	DrawShadowScene();
 	DrawTerrain();
-	
-	
-	DrawPostProcess();
-	PresentScene();
+
+	//DrawPostProcess();
+	//PresentScene();
 	SwapBuffers();
 }
 
 void Renderer::DrawTerrain()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	SetCurrentShader(terrainShader);
+	SetShaderLight(*terrain->GetLight());
 
 	glUniform1i(glGetUniformLocation(
 		currentShader->GetProgram(), "grassTex"), 0);
 	glUniform1i(glGetUniformLocation(
 		currentShader->GetProgram(), "rockTex"), 1);
+	glUniform1i(glGetUniformLocation(
+		currentShader->GetProgram(), "shadowTex"), 0);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, shadowTex);
 
 	Vector3 dirLight = Vector3(0.0f, -0.5f, 0.5f);
 
@@ -165,7 +198,10 @@ void Renderer::DrawTerrain()
 		currentShader->GetProgram(), "light_direction"), 1, (float*)&dirLight);
 
 	modelMatrix.ToIdentity();
-	textureMatrix.ToIdentity();
+	//textureMatrix.ToIdentity();
+	Matrix4 tempMat = textureMatrix * modelMatrix;
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram()
+		, "textureMatrix"), 1, false, *&tempMat.values);
 	viewMatrix = camera->BuildViewMatrix();
 	SwitchToPerspective();
 
@@ -176,12 +212,35 @@ void Renderer::DrawTerrain()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void Renderer::DrawShadowScene()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glViewport(0, 0, 2048, 2048);
+	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+	SetCurrentShader(shadowShader);
+	
+	modelMatrix.ToIdentity();
+	viewMatrix = Matrix4::BuildViewMatrix(terrain->GetLight()->GetPosition(), terrain->GetLight()->GetPosition() - Vector3(-1, 0, 0), Vector3(0, 1, 0));
+	//textureMatrix = projMatrix * viewMatrix;
+
+	UpdateShaderMatrices();
+
+	terrain->Draw();
+
+	glUseProgram(0);
+	
+	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+	glViewport(0, 0, 1280, 720);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
 void Renderer::DrawSkybox()
 {
 	//glBindFramebuffer(GL_FRAMEBUFFER, bufferFBO);
 	
 	glDepthMask(GL_FALSE);
-	SetCurrentShader(skyboxShader);
+	SetCurrentShader(skyboxShader);	
 
 	glUniform1i(glGetUniformLocation(currentShader->GetProgram(),
 		"cubeTex"), 0);

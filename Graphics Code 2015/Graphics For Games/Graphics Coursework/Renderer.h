@@ -19,6 +19,7 @@ protected:
 	void DrawTerrain();
 	void DrawSkybox();
 	void DrawPostProcess();
+	void DrawShadowScene();
 	void PresentScene();
 
 	void GenerateFramebuffers();
@@ -35,9 +36,12 @@ protected:
 	Shader* terrainShader;
 	Shader* skyboxShader;
 	Shader* postShader;
+	Shader* shadowShader;
 
 	GLuint bufferFBO;
 	GLuint processFBO;
+	GLuint shadowFBO;
+	GLuint shadowTex;
 	GLuint bufferColourTex;
 	GLuint bufferDepthTex;
 

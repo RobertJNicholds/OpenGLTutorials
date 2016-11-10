@@ -61,5 +61,11 @@
     <None Include="..\..\Shaders\CW\skyboxVertex.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\..\Shaders\CW\shadowFragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Shaders\CW\shadowVertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

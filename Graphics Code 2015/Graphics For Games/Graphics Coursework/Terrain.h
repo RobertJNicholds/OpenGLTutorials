@@ -33,9 +33,13 @@ public:
 	void	SetSnowTex(GLuint tex) { snowTex = tex; }
 	GLuint	GetSnowTex() { return snowTex; }
 
+	Light*	GetLight() { return light; }
+
 protected:
 
 	GLuint grassTex;
 	GLuint rockTex;
 	GLuint snowTex;
+
+	Light* light;
 };
