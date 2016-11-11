@@ -16,6 +16,16 @@ Renderer::Renderer(Window &parent) : OGLRenderer(parent)
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 
+	lightDirections = new LightDirection[6]
+	{
+		{ GL_TEXTURE_CUBE_MAP_POSITIVE_X, Vector3(1.0f, 0.0f, 0.0f), Vector3(0.0f, -1.0f, 0.0f) },
+		{ GL_TEXTURE_CUBE_MAP_NEGATIVE_X, Vector3(-1.0f, 0.0f, 0.0f), Vector3(0.0f, -1.0f, 0.0f) },
+		{ GL_TEXTURE_CUBE_MAP_POSITIVE_Y, Vector3(0.0f, 1.0f, 0.0f), Vector3(0.0f, 0.0f, -1.0f) },
+		{ GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, Vector3(0.0f, -1.0f, 0.0f), Vector3(0.0f, 0.0f, 1.0f) },
+		{ GL_TEXTURE_CUBE_MAP_POSITIVE_Z, Vector3(0.0f, 0.0f, 1.0f), Vector3(0.0f, -1.0f, 0.0f) },
+		{ GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, Vector3(0.0f, 0.0f, -1.0f), Vector3(0.0f, -1.0f, 0.0f) }
+	};
+
 	init = true;
 }
 
@@ -28,6 +38,7 @@ Renderer::~Renderer(void)
 	delete postShader;
 	delete shadowShader;
 	delete quad;
+	delete[] lightDirections;
 
 	currentShader = 0;
 
@@ -119,12 +130,23 @@ void Renderer::GenerateFramebufferTextures()
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16,
 		2048, 2048, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE,
 		GL_COMPARE_R_TO_TEXTURE);
+
+	glGenTextures(1, &shadowCubeMap);
+	glBindTexture(GL_TEXTURE_2D, shadowCubeMap);
+
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+	for (int i = 0; i < 6; i++) {
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_R32F, 2048, 2048, 0, GL_RED, GL_FLOAT, NULL);
+	}
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
@@ -187,7 +209,7 @@ void Renderer::DrawTerrain()
 	glUniform1i(glGetUniformLocation(
 		currentShader->GetProgram(), "rockTex"), 1);
 	glUniform1i(glGetUniformLocation(
-		currentShader->GetProgram(), "shadowTex"), 0);
+		currentShader->GetProgram(), "shadowTex"), 2);
 
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, shadowTex);
@@ -196,12 +218,19 @@ void Renderer::DrawTerrain()
 
 	glUniform3fv(glGetUniformLocation(
 		currentShader->GetProgram(), "light_direction"), 1, (float*)&dirLight);
+	
+	Matrix4 lightMat = Matrix4::BuildViewMatrix(terrain->GetLight()->GetPosition(), terrain->GetLight()->GetPosition() - Vector3(-1, 0, 0), Vector3(0, 1, 0));
+
+	glUniformMatrix4fv(glGetUniformLocation(
+		currentShader->GetProgram(), "lightMat"), 1, false, *&lightMat.values);
 
 	modelMatrix.ToIdentity();
+	
 	//textureMatrix.ToIdentity();
 	Matrix4 tempMat = textureMatrix * modelMatrix;
 	glUniformMatrix4fv(glGetUniformLocation(currentShader->GetProgram()
-		, "textureMatrix"), 1, false, *&tempMat.values);
+		, "textureMatrix"), 1, false, *&tempMat.values);
+
 	viewMatrix = camera->BuildViewMatrix();
 	SwitchToPerspective();
 
@@ -219,15 +248,16 @@ void Renderer::DrawShadowScene()
 	glViewport(0, 0, 2048, 2048);
 	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 	SetCurrentShader(shadowShader);
+
+	//modelMatrix.ToIdentity();
 	
-	modelMatrix.ToIdentity();
-	viewMatrix = Matrix4::BuildViewMatrix(terrain->GetLight()->GetPosition(), terrain->GetLight()->GetPosition() - Vector3(-1, 0, 0), Vector3(0, 1, 0));
-	//textureMatrix = projMatrix * viewMatrix;
+	viewMatrix = Matrix4::BuildViewMatrix(terrain->GetLight()->GetPosition(), 
+		terrain->GetLight()->GetPosition() - Vector3(-1, 0, 0),
+		Vector3(0, 1, 0));
+	textureMatrix = biasMatrix * (projMatrix * viewMatrix);
 
 	UpdateShaderMatrices();
-
 	terrain->Draw();
-
 	glUseProgram(0);
 	
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
@@ -304,7 +334,7 @@ void Renderer::PresentScene()
 void Renderer::SwitchToPerspective()
 {
 	projMatrix = Matrix4::Perspective(1.0f, 10000000.0f,
-		(float)width / (float)height, 45.0f);
+		(float)width / (float)height, 70.0f);
 }
 
 void Renderer::SwitchToOrthographic()

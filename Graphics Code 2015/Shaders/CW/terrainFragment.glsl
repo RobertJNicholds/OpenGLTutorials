@@ -39,16 +39,17 @@ void main(void){
 	float atten = 1.0 - clamp(dist / lightRadius, 0.0, 1.0);
 
 	float shadow = 1.0;
+
 	if(IN.shadowProj.w > 0.0)
 	{
 		shadow = textureProj(shadowTex, IN.shadowProj);
 	}
-	
-	lambert *= shadow;
+
+	lambert *= shadow;	
 
 	vec3 colour = (diffuse.rgb * lightColour.rgb);
 	
-	fragColor = (vec4(0.1,0.1,0.1,0.1) * diffuse);
+	fragColor = (vec4(0.2,0.2,0.2,1.0) * diffuse);
 	fragColor += vec4(colour * atten * lambert, 1.0);
 
 	vec3 N = normalize(IN.normal);

@@ -16,6 +16,15 @@ public:
 
 protected:
 
+	struct LightDirection
+	{
+		GLenum cubeMapFace;
+		Vector3 target;
+		Vector3 up;
+	};
+
+	LightDirection* lightDirections;
+
 	void DrawTerrain();
 	void DrawSkybox();
 	void DrawPostProcess();
@@ -41,6 +50,7 @@ protected:
 	GLuint bufferFBO;
 	GLuint processFBO;
 	GLuint shadowFBO;
+	GLuint shadowCubeMap;
 	GLuint shadowTex;
 	GLuint bufferColourTex;
 	GLuint bufferDepthTex;
