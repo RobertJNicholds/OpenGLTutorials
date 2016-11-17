@@ -9,9 +9,9 @@
 #define RAW_WIDTH 1081
 #define RAW_HEIGHT 1081
 
-#define HEIGHTMAP_X 256.0f
-#define HEIGHTMAP_Z 256.0f
-#define HEIGHTMAP_Y 100.0f
+#define HEIGHTMAP_X 16.0f
+#define HEIGHTMAP_Z 16.0f
+#define HEIGHTMAP_Y 9.0f
 #define HEIGHTMAP_TEX_X 1.0f / 16.0f
 #define HEIGHTMAP_TEX_Z 1.0f / 16.0f
 
@@ -34,6 +34,7 @@ public:
 	GLuint	GetSnowTex() { return snowTex; }
 
 	Light*	GetLight() { return light; }
+	void	SetLightPosition(Vector3 pos) { light->SetPosition(pos); }
 
 protected:
 

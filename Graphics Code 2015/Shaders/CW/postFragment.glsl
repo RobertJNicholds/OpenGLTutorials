@@ -4,8 +4,7 @@ uniform sampler2D diffuseTex;
 
 in Vertex 
 {
-	vec2 texCoord;
-	vec4 colour;
+	vec2 texCoord;	
 } IN;
 
 out vec4 fragColour;
@@ -53,16 +52,16 @@ float IsEdge(in vec2 coords)
           abs(pix[2]-pix[6])
            )/4.;
 
-  return threshold(0.25,0.4,clamp(1.8*delta,0.0,1.0));
+  return threshold(0.1,0.3,clamp(1.8*delta,0.0,1.0));
 }
 
 void main()
 {
 	vec4 colour = texture(diffuseTex, IN.texCoord);	
-	//if(IsEdge(IN.texCoord.xy) == 1)
-	//{
-	//	colour.r = 1.0;
-	//}
+	if(IsEdge(IN.texCoord.xy) == 1)
+	{
+		colour.r = 1.0;
+	}
 	
 	fragColour = colour;
 }

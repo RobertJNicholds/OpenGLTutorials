@@ -92,6 +92,13 @@ Mesh* Mesh::GenerateQuad()
 	return mesh;
 }
 
+Mesh* Mesh::GenerateCube()
+{
+	Mesh* mesh = new Mesh();
+
+	return mesh;
+}
+
 void Mesh::BufferData()
 {
 	glBindVertexArray(arrayObject);

@@ -1,7 +1,7 @@
-﻿Build started 10/11/2016 14:19:24.
-     1>Project "D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\nclgl\nclgl.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 17/11/2016 13:29:34.
+     1>Project "D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\nclgl\nclgl.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D GLEW_STATIC /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\nclgl.pdb" /Gd /TP /analyze- /errorReport:prompt Camera.cpp Frustum.cpp GameTimer.cpp Keyboard.cpp Matrix4.cpp MD5Anim.cpp MD5FileData.cpp MD5Mesh.cpp MD5Node.cpp Mesh.cpp Mouse.cpp OBJMesh.cpp OGLRenderer.cpp Plane.cpp Quaternion.cpp SceneNode.cpp Shader.cpp Window.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D GLEW_STATIC /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\nclgl.pdb" /Gd /TP /analyze- /errorReport:prompt Camera.cpp Frustum.cpp GameTimer.cpp Keyboard.cpp MD5Anim.cpp MD5FileData.cpp MD5Mesh.cpp MD5Node.cpp Matrix4.cpp Mesh.cpp Mouse.cpp OBJMesh.cpp OGLRenderer.cpp Plane.cpp Quaternion.cpp SceneNode.cpp Shader.cpp Window.cpp
          Window.cpp
          Shader.cpp
          SceneNode.cpp
@@ -11,11 +11,11 @@
          OBJMesh.cpp
          Mouse.cpp
          Mesh.cpp
+         Matrix4.cpp
          MD5Node.cpp
          MD5Mesh.cpp
          MD5FileData.cpp
          MD5Anim.cpp
-         Matrix4.cpp
          Keyboard.cpp
          GameTimer.cpp
          Frustum.cpp
@@ -41,8 +41,8 @@
          Debug\Shader.obj
          Debug\Window.obj
          nclgl.vcxproj -> D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\Graphics For Games\Debug\nclgl.lib
-     1>Done Building Project "D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\nclgl\nclgl.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "D:\Docs\Git\OpenGLTutorials\Graphics Code 2015\nclgl\nclgl.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:07.40
+Time Elapsed 00:00:07.10

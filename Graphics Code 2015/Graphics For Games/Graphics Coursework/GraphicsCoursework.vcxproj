@@ -82,9 +82,17 @@
     <ClCompile Include="Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Shaders\CW\combineFragment.glsl" />
+    <None Include="..\..\Shaders\CW\combineVertex.glsl" />
+    <None Include="..\..\Shaders\CW\pointlightFragment.glsl" />
+    <None Include="..\..\Shaders\CW\pointlightVertex.glsl" />
     <None Include="..\..\Shaders\CW\postFragment.glsl" />
     <None Include="..\..\Shaders\CW\postVertex.glsl" />
+    <None Include="..\..\Shaders\CW\presentFragment.glsl" />
+    <None Include="..\..\Shaders\CW\sceneFragment.glsl" />
+    <None Include="..\..\Shaders\CW\sceneVertex.glsl" />
     <None Include="..\..\Shaders\CW\shadowFragment.glsl" />
+    <None Include="..\..\Shaders\CW\shadowGeometry.glsl" />
     <None Include="..\..\Shaders\CW\shadowVertex.glsl" />
     <None Include="..\..\Shaders\CW\skyboxFragment.glsl" />
     <None Include="..\..\Shaders\CW\skyboxVertex.glsl" />
