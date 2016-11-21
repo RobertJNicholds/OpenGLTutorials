@@ -13,6 +13,7 @@ _-_-_-_-_-_-_-""  ""
 */
 #include <cmath>
 #include <iostream>
+#include "../GLEW/include/GL/glew.h"
 
 class Vector3	{
 public:
@@ -100,6 +101,11 @@ public:
 
 	inline Vector3  operator*(const float a) const{
 		return Vector3(x * a,y * a, z * a);
+	}
+
+	inline Vector3 operator*=(GLfloat a) const
+	{
+		return Vector3(x * a, y * a, z * a);
 	}
 
 	inline Vector3  operator*(const Vector3  &a) const{

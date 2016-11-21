@@ -7,7 +7,7 @@ Terrain::Terrain(std::string &filename)
 	snowTex = NULL;	
 
 	light = new Light(Vector3(2819.f, 600.0f, 3424.0f),
-		Vector4(1.0f, 1.0f, 1.0f, 1.0f), 200000.f);
+		Vector4(5.0f, 5.0f, 5.0f, 1.0f), 200000.f);
 
 	std::vector<unsigned char> image;
 	

@@ -5,7 +5,7 @@
 
 int main()
 {
-	Window w("Graphics Coursework", 1280, 720, false);
+	Window w("Graphics Coursework", 1600, 900, false);
 	if (!w.HasInitialised())
 		return -1;
 
@@ -55,6 +55,10 @@ int main()
 		if (Window::GetKeyboard()->KeyDown(KEYBOARD_L))
 		{
 			renderer.SwitchToLightView();
+		}
+		if (Window::GetKeyboard()->KeyTriggered(KEYBOARD_N))
+		{
+			renderer.ToggleOcclusion();
 		}
 	}
 

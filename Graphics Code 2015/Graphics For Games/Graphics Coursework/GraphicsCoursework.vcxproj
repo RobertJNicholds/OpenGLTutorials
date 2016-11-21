@@ -74,14 +74,18 @@
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Terrain.h" />
+    <ClInclude Include="TextMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="TextMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Shaders\CW\blurFragment.glsl" />
+    <None Include="..\..\Shaders\CW\colourFragment.glsl" />
     <None Include="..\..\Shaders\CW\combineFragment.glsl" />
     <None Include="..\..\Shaders\CW\combineVertex.glsl" />
     <None Include="..\..\Shaders\CW\pointlightFragment.glsl" />
@@ -96,8 +100,10 @@
     <None Include="..\..\Shaders\CW\shadowVertex.glsl" />
     <None Include="..\..\Shaders\CW\skyboxFragment.glsl" />
     <None Include="..\..\Shaders\CW\skyboxVertex.glsl" />
-    <None Include="..\..\Shaders\CW\terrainFragment.glsl" />
-    <None Include="..\..\Shaders\CW\terrainVertex.glsl" />
+    <None Include="..\..\Shaders\CW\ssaoBlurFragment .glsl" />
+    <None Include="..\..\Shaders\CW\ssaoFragment.glsl" />
+    <None Include="..\..\Shaders\CW\textFragment.glsl" />
+    <None Include="..\..\Shaders\CW\textVertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

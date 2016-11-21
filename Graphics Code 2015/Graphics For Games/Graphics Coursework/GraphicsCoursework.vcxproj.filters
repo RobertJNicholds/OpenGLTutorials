@@ -27,6 +27,9 @@
     <ClInclude Include="lodepng.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Renderer.cpp">
@@ -41,18 +44,15 @@
     <ClCompile Include="lodepng.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Shaders\CW\postFragment.glsl">
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\..\Shaders\CW\postVertex.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Shaders\CW\terrainFragment.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Shaders\CW\terrainVertex.glsl">
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\..\Shaders\CW\skyboxFragment.glsl">
@@ -89,6 +89,24 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\..\Shaders\CW\presentFragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Shaders\CW\ssaoFragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Shaders\CW\ssaoBlurFragment .glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Shaders\CW\textFragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Shaders\CW\textVertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Shaders\CW\colourFragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\..\Shaders\CW\blurFragment.glsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
